@@ -1,0 +1,8 @@
+%h1= link_to 'Generate new Elevator Simulator', new_building_path
+
+%table
+  - @buildings.each do |building|
+    %tr
+      %td= building.created_at
+      %td= building.floors
+      %td= link_to 'Inspect', building_path(building)

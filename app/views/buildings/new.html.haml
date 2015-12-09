@@ -1,0 +1,8 @@
+- if @building.errors.any?
+  - @building.errors.full_messages.each do |error|
+    .error_message
+      = error
+= form_for @building do |form|
+  = form.label :floors, 'How many floors does the building have?'
+  = form.number_field :floors
+  = form.submit 'Create'
