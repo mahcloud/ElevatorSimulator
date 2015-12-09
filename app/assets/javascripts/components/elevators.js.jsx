@@ -42,6 +42,21 @@ var Elevators = React.createClass({
     });
   },
 
+  clearElevator: function(elevatorID) {
+    console.log(elevatorID);
+    $.ajax({
+      context: this,
+      url: '/api/elevators/' + elevatorID,
+      type: 'PUT',
+      data: { elevator: { occupied: false } },
+      success: function(result) {
+        if(result.status != 'success') {
+          alert(result.status);
+        }
+      }
+    });
+  },
+
   render: function() {
     var self = this;
 
@@ -61,7 +76,18 @@ var Elevators = React.createClass({
   },
 
   renderFloors: function(elevator) {
+    var self = this;
+
     var floors = [];
+    var menuRow = [<td>Floors</td>];
+    this.state.elevators.forEach(function(elevator) {
+      if(elevator.occupied) {
+        console.log(elevator.id);
+        menuRow.push(<td onClick={ self.clearElevator.bind(self, elevator.elevator_id) }>Exit</td>);
+      } else {
+        menuRow.push(<td>Empty</td>);
+      }
+    });
     for(var floorCount = this.state.floorsCount; floorCount >= 1; floorCount--) {
       var elevators = [<td>{floorCount}</td>]
       this.state.elevators.forEach(function(elevator) {
@@ -70,9 +96,10 @@ var Elevators = React.createClass({
         } else {
           elevators.push(<td>0</td>);
         }
-      })
+      });
       floors.push(<tr onClick={ this.requestFloor.bind(this, floorCount) }>{ elevators }</tr>);
     }
+    floors.push(<tr>{ menuRow }</tr>);
     return floors;
   }
 });

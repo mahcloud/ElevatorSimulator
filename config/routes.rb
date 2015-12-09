@@ -5,6 +5,7 @@ Rails.application.routes.draw do
   resources :elevators, only: [:create]
 
   namespace :api do
+    resources :elevators, only: [:update]
     resources :floors, only: [:create]
   end
 end
