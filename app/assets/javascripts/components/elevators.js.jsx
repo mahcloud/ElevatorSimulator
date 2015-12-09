@@ -88,7 +88,11 @@ var Elevators = React.createClass({
         menuRow.push(<td>Empty</td>);
       }
       distanceRow.push(<td>{ elevator.floors_count }</td>);
-      tripsRow.push(<td>{ elevator.trips_count }</td>);
+      if(elevator.trips_count >= 100) {
+        tripsRow.push(<td>Waiting for service</td>);
+      } else {
+        tripsRow.push(<td>{ elevator.trips_count }</td>);
+      }
     });
     for(var floorCount = this.state.floorsCount; floorCount >= 1; floorCount--) {
       var elevators = [<td>{floorCount}</td>]

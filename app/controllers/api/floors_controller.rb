@@ -3,7 +3,7 @@ class Api::FloorsController < ApplicationController
 
   def create
     @status = 'No available elevators'
-    elevator = @building.elevators.where(occupied: false).order("abs(#{@floor} - elevators.current_floor) ASC").first
+    elevator = @building.elevators.where('trips_count <= 100').where(occupied: false).order("abs(#{@floor} - elevators.current_floor) ASC").first
     return if elevator.nil?
     elevator.floors_count += (elevator.current_floor - @floor).abs
     elevator.trips_count += 1
