@@ -1,3 +1,5 @@
 = form_for Elevator.new, remote: true do |form|
   = form.hidden_field :building_id, value: @building.id
   = form.submit 'Add an Elevator'
+
+= react_component('Elevators', buildingID: @building.id)

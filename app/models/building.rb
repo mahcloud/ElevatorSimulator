@@ -5,6 +5,8 @@ class Building < ActiveRecord::Base
 
   validates :floors, presence: true, numericality: { greater_than: 0 }
 
+  has_many :elevators
+
   def update_firebase
     firebase = Firebase::Client.new('https://elevator-simulator.firebaseio.com/')
     json = {
@@ -13,6 +15,17 @@ class Building < ActiveRecord::Base
         elevators: []
       }
     }
+
+    elevators.each do |elevator|
+      json[id][:elevators] << {
+        elevator_id: elevator.id,
+        current_floor: elevator.current_floor,
+        occupied: elevator.occupied,
+        floors_count: elevator.floors_count,
+        trips_count: elevator.trips_count
+      }
+    end
+
     firebase.update('buildings', json)
   end
 end

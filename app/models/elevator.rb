@@ -3,16 +3,9 @@ class Elevator < ActiveRecord::Base
 
   after_create :update_firebase
 
+  belongs_to :building
+
   def update_firebase
-    firebase = Firebase::Client.new("https://elevator-simulator.firebaseio.com/buildings/#{building_id}/")
-    json = {
-      id => {
-        current_floor: current_floor,
-        occupied: occupied,
-        floors_count: floors_count,
-        trips_count: trips_count
-      }
-    }
-    firebase.update('elevators', json)
+    building.update_firebase
   end
 end
