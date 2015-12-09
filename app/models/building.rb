@@ -16,7 +16,7 @@ class Building < ActiveRecord::Base
       }
     }
 
-    elevators.each do |elevator|
+    elevators.order(id: :asc).each do |elevator|
       json[id][:elevators] << {
         elevator_id: elevator.id,
         current_floor: elevator.current_floor,

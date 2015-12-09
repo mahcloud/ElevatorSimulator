@@ -1,7 +1,7 @@
 class Elevator < ActiveRecord::Base
   validates :building_id, presence: true
 
-  after_create :update_firebase
+  after_save :update_firebase
 
   belongs_to :building
 

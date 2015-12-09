@@ -28,6 +28,20 @@ var Elevators = React.createClass({
     }.bind(this));
   },
 
+  requestFloor: function(floorCount) {
+    $.ajax({
+      context: this,
+      url: '/api/floors/',
+      type: 'POST',
+      data: { building_id: this.props.buildingID, floor: floorCount },
+      success: function(result) {
+        if(result.status != 'success') {
+          alert(result.status);
+        }
+      }
+    });
+  },
+
   render: function() {
     var self = this;
 
@@ -57,7 +71,7 @@ var Elevators = React.createClass({
           elevators.push(<td>0</td>);
         }
       })
-      floors.push(<tr>{ elevators }</tr>);
+      floors.push(<tr onClick={ this.requestFloor.bind(this, floorCount) }>{ elevators }</tr>);
     }
     return floors;
   }
