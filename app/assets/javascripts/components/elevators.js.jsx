@@ -43,7 +43,6 @@ var Elevators = React.createClass({
   },
 
   clearElevator: function(elevatorID) {
-    console.log(elevatorID);
     $.ajax({
       context: this,
       url: '/api/elevators/' + elevatorID,
@@ -80,13 +79,16 @@ var Elevators = React.createClass({
 
     var floors = [];
     var menuRow = [<td>Floors</td>];
+    var distanceRow = [<td>Distance</td>];
+    var tripsRow = [<td>Trips</td>];
     this.state.elevators.forEach(function(elevator) {
       if(elevator.occupied) {
-        console.log(elevator.id);
         menuRow.push(<td onClick={ self.clearElevator.bind(self, elevator.elevator_id) }>Exit</td>);
       } else {
         menuRow.push(<td>Empty</td>);
       }
+      distanceRow.push(<td>{ elevator.floors_count }</td>);
+      tripsRow.push(<td>{ elevator.trips_count }</td>);
     });
     for(var floorCount = this.state.floorsCount; floorCount >= 1; floorCount--) {
       var elevators = [<td>{floorCount}</td>]
@@ -100,6 +102,8 @@ var Elevators = React.createClass({
       floors.push(<tr onClick={ this.requestFloor.bind(this, floorCount) }>{ elevators }</tr>);
     }
     floors.push(<tr>{ menuRow }</tr>);
+    floors.push(<tr>{ distanceRow }</tr>);
+    floors.push(<tr>{ tripsRow }</tr>);
     return floors;
   }
 });
